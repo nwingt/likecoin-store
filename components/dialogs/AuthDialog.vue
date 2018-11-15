@@ -394,6 +394,7 @@ export default {
       this.$emit('closed');
     },
     setIsShow(isShow) {
+      this.isSigningInWithEmail = false;
       this.setAuthDialog({ isShow });
     },
     close() {
