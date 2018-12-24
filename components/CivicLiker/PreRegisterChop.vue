@@ -2,10 +2,11 @@
   <div class="pre-register-chop">
     <div>
       <div class="pre-register-chop__trial">
-        <lc-chop-trial
+        <lc-chop-civic-liker-rect
           :date="civicLikerUnlockDate"
           :size="164"
           :is-trialling="isRegistered"
+          is-trial
           rotate-z="13"
         />
       </div>

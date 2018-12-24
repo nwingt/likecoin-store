@@ -47,6 +47,12 @@
                   @click="onClickButton"
                 >{{ buttonTitle }}</md-button>
               </div>
+              <span
+                v-if="isStarted && buttonFootnote"
+                class="lc-margin-top-12 lc-color-light-burgundy lc-font-size-12 lc-font-weight-500"
+              >
+                {{ buttonFootnote }}
+              </span>
 
             </div>
             <lc-chop-countdown
@@ -90,10 +96,11 @@
                   v-for="i in FEATURE_COUNT"
                   :key="i"
                 >
-                  <lc-chop-trial
+                  <lc-chop-civic-liker-rect
                     :date="civicLikerStartDate"
                     size="156"
                     rotate-z="12"
+                    is-trial
                   />
                   <p>{{ $t(`CivicPage.features[${i - 1}]`) }}</p>
                 </li>
@@ -376,7 +383,7 @@ export default {
         return this.$t('CivicLikerTrial.willBeHeld');
       }
       if (this.isStarted) {
-        return this.$t('CivicLiker.limitedQuota');
+        return this.$t('CivicPage.limitedQuota');
       }
       return '';
     },
@@ -385,7 +392,7 @@ export default {
         return this.$t('CivicLikerTrial.onGoing');
       }
       if (this.isStarted) {
-        return this.$t('CivicLiker.onGoing');
+        return this.$t('CivicPage.onGoing');
       }
       return '';
     },
@@ -447,7 +454,7 @@ export default {
   },
   methods: {
     onClickButton() {
-      this.$router.push({ name: 'in-civic-trial' });
+      this.$router.push({ name: `in-civic-${this.isStarted ? 'register' : 'trial'}` });
     },
   },
 };
