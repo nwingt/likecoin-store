@@ -1,5 +1,6 @@
 <template>
   <BaseDialogV2
+    ref="dialog"
     v-bind="$testID('AuthDialog')"
     :class="{
       'auth-dialog': true,
@@ -62,7 +63,7 @@
       <transition-group
         tag="div"
         class="auth-dialog__tab-container"
-        name="auth-dialog__tab-"
+        :name="tabTransitionName"
         appear
         @enter="updateContentHeightForCurrentTab"
       >
@@ -316,6 +317,8 @@ export default {
       loggedEvents: {},
 
       hasClickSignWithWalletInError: false,
+
+      tabTransitionName: 'auth-dialog__tab-',
     };
   },
   computed: {
@@ -458,6 +461,17 @@ export default {
       }
 
       this.$nextTick(this.updateResizeObserverForCurrentTab);
+    },
+    tabKey(key, prevKey) {
+      let transitionName = 'auth-dialog__tab-';
+      console.info('HELLOLOOO', key, prevKey);
+      if (
+        (key === 'portal' && prevKey === 'portal-signin')
+        || (prevKey === 'portal' && key === 'portal-signin')
+      ) {
+        transitionName = `${transitionName}signin-`;
+      }
+      this.tabTransitionName = transitionName;
     },
     shouldShowDialog(value) {
       if (value) {
@@ -1113,6 +1127,8 @@ export default {
 
   &__tab-container {
     position: relative;
+
+    perspective: 100vw;
   }
 
   &__tab {
@@ -1131,6 +1147,15 @@ export default {
         transform: scale(1.1);
 
         opacity: 0;
+      }
+    }
+
+    &-signin-- {
+      &enter {
+        transform: rotateY(-90deg);
+      }
+      &leave-to {
+        transform: rotateY(90deg);
       }
     }
   }
